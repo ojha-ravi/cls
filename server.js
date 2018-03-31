@@ -30,11 +30,15 @@ function onError(error) {
 
   switch (error.code) {
     case 'EACCES':
+      /* eslint-disable no-console */
       console.error(`${bind} requires elevated privileges`);
+      /* eslint-enable no-console */
       process.exit(1);
       break;
     case 'EADDRINUSE':
+      /* eslint-disable no-console */
       console.error(`${bind} is already in use`);
+      /* eslint-enable no-console */
       process.exit(1);
       break;
     default:

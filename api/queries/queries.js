@@ -6,7 +6,7 @@ const options = {
 
 const pgp = require('pg-promise')(options);
 
-const connectionString = 'postgres://localhost:5432/consumerlawer';
+const connectionString = 'postgres://localhost:5432/consumerlawyer';
 const db = pgp(connectionString);
 
 export const getAllUser = (req, res, next) => {
@@ -38,6 +38,7 @@ export const getSingleUser = (req, res, next) => {
 
 export const createUser = (req, res, next) => {
   req.body.age = parseInt(req.body.age, 10);
+  /* eslint-disable no-template-curly-in-string, no-useless-concat */
   db
     .none('insert into login_detail(name, breed, age, sex)' + 'values(${name}, ${age}, ${sex})', req.body)
     .then(() => {
@@ -47,11 +48,12 @@ export const createUser = (req, res, next) => {
       });
     })
     .catch(err => next(err));
+  /* eslint-enable no-template-curly-in-string, no-useless-concat */
 };
 
 export const updateUser = (req, res, next) => {
   db
-    .none('update login_detail set name=$1, breed=$2, age=$3, sex=$4 where id=$5', [
+    .none('update login_detail set name=$1, age=$3, sex=$4 where id=$5', [
       req.body.name,
       req.body.breed,
       parseInt(req.body.age, 10),
@@ -72,12 +74,10 @@ export const removeUser = (req, res, next) => {
   db
     .result('delete from login_detail where id = $1', pupID)
     .then(result => {
-      /* jshint ignore:start */
       res.status(200).json({
         status: 'success',
         message: `Removed ${result.rowCount} User`
       });
-      /* jshint ignore:end */
     })
     .catch(err => next(err));
 };
