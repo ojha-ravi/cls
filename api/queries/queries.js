@@ -35,6 +35,20 @@ export const loginUser = (req, res, next) => {
     .catch(err => next(err));
 };
 
+export const getUserProfile = (req, res, next) => {
+  const { userId } = req.query;
+  console.log(userId);
+  db
+    .one('select * from user_profile where user_id = $1', userId)
+    .then(data => {
+      res.status(200).json({
+        status: 'success',
+        data
+      });
+    })
+    .catch(err => next(err));
+};
+
 export const getSingleUser = (req, res, next) => {
   const pupID = parseInt(req.params.id, 10);
   db
