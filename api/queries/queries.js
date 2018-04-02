@@ -37,7 +37,6 @@ export const loginUser = (req, res, next) => {
 
 export const getUserProfile = (req, res, next) => {
   const { userId } = req.query;
-  console.log(userId);
   db
     .one('select * from user_profile where user_id = $1', userId)
     .then(data => {
