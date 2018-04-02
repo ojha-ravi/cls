@@ -22,6 +22,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(express.static(`${__dirname}/assets`));
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler

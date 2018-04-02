@@ -39,6 +39,8 @@ CREATE TABLE user_profile (
   last_name VARCHAR NOT NULL,
   middle_name VARCHAR,
   work_destination VARCHAR,
+  field VARCHAR,
+  introduction VARCHAR NOT NULL,
   address_1 VARCHAR,
   address_2 VARCHAR,
   address_3 VARCHAR,
@@ -47,16 +49,18 @@ CREATE TABLE user_profile (
 
 INSERT INTO user_profile (
 	user_id, email, title, sex, first_name, last_name, middle_name,
-	work_destination, address_1, address_2, address_3, profile_image
+	work_destination, field, introduction, address_1, address_2, address_3, profile_image
 ) VALUES (
 	'ravi', 'rbojha008@gmail.com', 'mr', 'male', 'ravi', 'ojha', '',
-	'software_engineer', 'bangalore', '', '', ''
+	'software_engineer', 'it', 'As it so contrasted oh estimating instrument. Size like body some one had. Are conduct viewing boy minutes warrant expense. Tolerably behaviour may admitting daughters offending her ask own. Praise effect wishes change way and any wanted. Lively use looked latter regard had. Do he it part more last in. Merits ye if mr narrow points. Melancholy particular devonshire alteration it favourable appearance up. ',
+	'bangalore', '', '', 'ravi.png'
 	);
 
 INSERT INTO user_profile (
 	user_id, email, title, sex, first_name, last_name, middle_name,
-	work_destination, address_1, address_2, address_3, profile_image
+	work_destination, field, introduction, address_1, address_2, address_3, profile_image
 ) VALUES (
 	'ravi01', 'rbojha008@gmail.com', 'mr', 'male', 'ravi', 'ojha', '',
-	'software_engineer', 'bangalore', '', '', ''
+	'software_engineer', 'it', 'As it so contrasted oh estimating instrument. Size like body some one had. Are conduct viewing boy minutes warrant expense. Tolerably behaviour may admitting daughters offending her ask own. Praise effect wishes change way and any wanted. Lively use looked latter regard had. Do he it part more last in. Merits ye if mr narrow points. Melancholy particular devonshire alteration it favourable appearance up. ',
+	'bangalore', '', '', 'ravi.png'
 	);
