@@ -22,6 +22,20 @@ export const getAllUser = (req, res, next) => {
     .catch(err => next(err));
 };
 
+export const loginUser = (req, res, next) => {
+  const { userId, password } = req.query;
+  console.log(userId, password);
+  db
+    .one('select * from login_detail where user_id = $1 AND password = $2', [userId, password])
+    .then(data => {
+      res.status(200).json({
+        status: 'success',
+        data
+      });
+    })
+    .catch(err => next(err));
+};
+
 export const getSingleUser = (req, res, next) => {
   const pupID = parseInt(req.params.id, 10);
   db
