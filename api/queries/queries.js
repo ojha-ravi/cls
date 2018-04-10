@@ -1,13 +1,15 @@
-import * as promise from 'bluebird';
+import promise from 'bluebird';
+import pgp from 'pg-promise';
+import fs from 'fs';
 
 const options = {
   promiseLib: promise
 };
 
-const pgp = require('pg-promise')(options);
+const newPgp = pgp(options);
 
 const connectionString = 'postgres://localhost:5432/consumerlawyer';
-const db = pgp(connectionString);
+const db = newPgp(connectionString);
 
 export const getAllUser = (req, res, next) => {
   db
@@ -48,19 +50,47 @@ export const getUserProfile = (req, res, next) => {
     .catch(err => next(err));
 };
 
-export const getSingleUser = (req, res, next) => {
-  const pupID = parseInt(req.params.id, 10);
-  db
-    .one('select * from login_detail where id = $1', pupID)
+export const documentUpload = (req, res, next) => {
+  new Promise((resolve, reject) => {
+    const userDoc = req.files.file;
+
+    userDoc.mv(`../cl-services/assets/${userDoc.name}`, err => {
+      if (err) {
+        reject();
+      }
+      resolve(userDoc.name);
+    });
+  })
     .then(data => {
       res.status(200).json({
         status: 'success',
-        data,
-        message: 'Retrieved ONE User'
+        data
       });
     })
     .catch(err => next(err));
 };
+
+export const documentDelete = (req, res, next) => {
+  const { fileName } = req.query;
+  new Promise((resolve, reject) => {
+    fs.unlink(`../cl-services/assets/${fileName}`, err => {
+      if (err) {
+        throw reject();
+      }
+      resolve(fileName);
+    });
+  })
+    .then(data => {
+      res.status(200).json({
+        status: 'success',
+        data
+      });
+    })
+    .catch(err => next(err));
+};
+
+export const saveComplain = (req, res, next) => {};
+export const getAllComplain = (req, res, next) => {};
 
 export const createUser = (req, res, next) => {
   req.body.age = parseInt(req.body.age, 10);
