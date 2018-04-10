@@ -27,7 +27,7 @@ export const getAllUser = (req, res, next) => {
 export const loginUser = (req, res, next) => {
   const { userId, password } = req.query;
   db
-    .one('select * from login_detail where user_id = $1 AND password = $2', [userId, password])
+    .one('select * from user_detail where user_id = $1 AND password = $2', [userId, password])
     .then(data => {
       res.status(200).json({
         status: 'success',
