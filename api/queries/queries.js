@@ -1,5 +1,6 @@
 import promise from 'bluebird';
 import pgp from 'pg-promise';
+import fs from 'fs';
 
 const options = {
   promiseLib: promise
@@ -49,7 +50,7 @@ export const getUserProfile = (req, res, next) => {
     .catch(err => next(err));
 };
 
-export const saveComplain = (req, res, next) => {
+export const documentUpload = (req, res, next) => {
   new Promise((resolve, reject) => {
     const userDoc = req.files.file;
 
@@ -57,8 +58,7 @@ export const saveComplain = (req, res, next) => {
       if (err) {
         reject();
       }
-
-      resolve(`../cl-services/assets/${userDoc.name}`);
+      resolve(userDoc.name);
     });
   })
     .then(data => {
@@ -69,6 +69,28 @@ export const saveComplain = (req, res, next) => {
     })
     .catch(err => next(err));
 };
+
+export const documentDelete = (req, res, next) => {
+  const { fileName } = req.query;
+  new Promise((resolve, reject) => {
+    fs.unlink(`../cl-services/assets/${fileName}`, err => {
+      if (err) {
+        throw reject();
+      }
+      resolve(fileName);
+    });
+  })
+    .then(data => {
+      res.status(200).json({
+        status: 'success',
+        data
+      });
+    })
+    .catch(err => next(err));
+};
+
+export const saveComplain = (req, res, next) => {};
+export const getAllComplain = (req, res, next) => {};
 
 export const createUser = (req, res, next) => {
   req.body.age = parseInt(req.body.age, 10);
