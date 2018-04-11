@@ -12,6 +12,7 @@ router.delete('/api/document/delete', dbQueries.documentDelete);
 
 router.get('/api/complain/index', dbQueries.getAllComplain);
 router.post('/api/complain/save', dbQueries.saveComplain);
+router.post('/api/complain/update', dbQueries.saveComplain);
 
 router.post('/api/users', dbQueries.createUser);
 router.put('/api/users/:id', dbQueries.updateUser);

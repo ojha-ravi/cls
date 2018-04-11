@@ -93,6 +93,12 @@ export const saveComplain = (req, res, next) => {
   const { params } = req.body;
   console.log(params);
 };
+
+export const updateComplain = (req, res, next) => {
+  const { params } = req.body;
+  console.log(params);
+};
+
 export const getAllComplain = (req, res, next) => {};
 
 export const createUser = (req, res, next) => {

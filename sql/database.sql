@@ -96,7 +96,7 @@ CREATE TABLE complains (
     ID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 	short_description VARCHAR,
 	long_description VARCHAR,
-	compalain_type VARCHAR,
+	complain_type VARCHAR,
 	country VARCHAR,
 	state VARCHAR,
 	place VARCHAR,
