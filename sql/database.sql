@@ -7,7 +7,7 @@ CREATE DATABASE consumerlawyer;
 CREATE TYPE user_type AS ENUM ('consumer', 'lawyer');
 CREATE TYPE salutation_type AS ENUM ('mr', 'mrs', 'miss');
 CREATE TYPE sex_type AS ENUM ('male', 'female');
-CREATE TYPE work_destination AS ENUM ('lawyer', 'engineer', 'doctor', 'police', 'businees_man');
+CREATE TYPE work_destination AS ENUM ('lawyer', 'engineer', 'doctor', 'police', 'businees_man', 'other');
 CREATE TYPE status AS ENUM ('in_progress', 'accepted', 'rejected');
 CREATE EXTENSION pgcrypto;
 
@@ -94,6 +94,13 @@ CREATE TABLE user_consumer_profile (
 
 CREATE TABLE complains (
     ID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	short_description VARCHAR,
+	long_description VARCHAR,
+	compalain_type VARCHAR,
+	country VARCHAR,
+	state VARCHAR,
+	place VARCHAR,
+	fir_filed_number BOOLEAN,
     create_by VARCHAR REFERENCES user_detail(user_id) ON DELETE CASCADE,
     created_at TIMESTAMP,
     updated_at TIMESTAMP
