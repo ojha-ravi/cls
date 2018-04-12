@@ -126,11 +126,9 @@ export const showComplain = (req, res, next) => {
 
 export const getAllComplain = (req, res, next) => {
   const { userId } = req.query;
-  console.log(userId);
   db
     .any('select * from complains where create_by=$1', userId)
     .then(data => {
-      console.log(data);
       res.status(200).json({
         status: 'success',
         data
