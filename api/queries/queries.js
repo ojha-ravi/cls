@@ -120,8 +120,17 @@ export const deleteComplain = (req, res, next) => {
 };
 
 export const showComplain = (req, res, next) => {
-  const { params } = req.body;
-  console.log(params);
+  const { complainId } = req.query;
+  db
+    .one('select * from complains where ID = $1', complainId)
+    .then(data => {
+      res.status(200).json({
+        status: 'success',
+        message: 'Found a single Complain',
+        data
+      });
+    })
+    .catch(err => next(err));
 };
 
 export const getAllComplain = (req, res, next) => {
