@@ -100,9 +100,9 @@ CREATE TABLE complains (
 	country VARCHAR,
 	state VARCHAR,
 	place VARCHAR,
-	fir_filed_number BOOLEAN,
+	fir_filed_number VARCHAR,
     create_by VARCHAR REFERENCES user_detail(user_id) ON DELETE CASCADE,
-    created_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT now_utc(),
     updated_at TIMESTAMP
 );
 

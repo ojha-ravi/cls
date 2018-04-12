@@ -89,9 +89,24 @@ export const documentDelete = (req, res, next) => {
     .catch(err => next(err));
 };
 
-export const saveComplain = (req, res, next) => {
-  const { params } = req.body;
-  console.log(params);
+export const createComplain = (req, res, next) => {
+  /* eslint-disable no-template-curly-in-string, no-useless-concat, camelcase */
+  db
+    .one(
+      'insert into complains(short_description, long_description, complain_type, country, state, place, fir_filed_number, create_by)' +
+        'values(${short_description}, ${long_description}, ${complain_type}, ${country}, ${state}, ${place}, ${fir_filed_number}, ${create_by}) RETURNING id',
+      req.body
+    )
+    .then(data => db.one('select * from complains where ID = $1', data.id))
+    .then(data => {
+      res.status(200).json({
+        status: 'success',
+        message: 'Inserted one Complain',
+        data
+      });
+    })
+    .catch(err => next(err));
+  /* eslint-enable no-template-curly-in-string, no-useless-concat, camelcase */
 };
 
 export const updateComplain = (req, res, next) => {
@@ -99,7 +114,30 @@ export const updateComplain = (req, res, next) => {
   console.log(params);
 };
 
-export const getAllComplain = (req, res, next) => {};
+export const deleteComplain = (req, res, next) => {
+  const { params } = req.body;
+  console.log(params);
+};
+
+export const showComplain = (req, res, next) => {
+  const { params } = req.body;
+  console.log(params);
+};
+
+export const getAllComplain = (req, res, next) => {
+  const { userId } = req.query;
+  console.log(userId);
+  db
+    .any('select * from complains where create_by=$1', userId)
+    .then(data => {
+      console.log(data);
+      res.status(200).json({
+        status: 'success',
+        data
+      });
+    })
+    .catch(err => next(err));
+};
 
 export const createUser = (req, res, next) => {
   req.body.age = parseInt(req.body.age, 10);
