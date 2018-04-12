@@ -27,7 +27,7 @@ export const getAllUser = (req, res, next) => {
 export const loginUser = (req, res, next) => {
   const { userId, password } = req.query;
   db
-    .one('select * from login_detail where user_id = $1 AND password = $2', [userId, password])
+    .one('select * from user_detail where user_id = $1 AND password = $2', [userId, password])
     .then(data => {
       res.status(200).json({
         status: 'success',
@@ -89,8 +89,62 @@ export const documentDelete = (req, res, next) => {
     .catch(err => next(err));
 };
 
-export const saveComplain = (req, res, next) => {};
-export const getAllComplain = (req, res, next) => {};
+export const createComplain = (req, res, next) => {
+  /* eslint-disable no-template-curly-in-string, no-useless-concat, camelcase */
+  db
+    .one(
+      'insert into complains(short_description, long_description, complain_type, country, state, place, fir_filed_number, create_by)' +
+        'values(${short_description}, ${long_description}, ${complain_type}, ${country}, ${state}, ${place}, ${fir_filed_number}, ${create_by}) RETURNING id',
+      req.body
+    )
+    .then(data => db.one('select * from complains where ID = $1', data.id))
+    .then(data => {
+      res.status(200).json({
+        status: 'success',
+        message: 'Inserted one Complain',
+        data
+      });
+    })
+    .catch(err => next(err));
+  /* eslint-enable no-template-curly-in-string, no-useless-concat, camelcase */
+};
+
+export const updateComplain = (req, res, next) => {
+  const { params } = req.body;
+  console.log(params);
+};
+
+export const deleteComplain = (req, res, next) => {
+  const { params } = req.body;
+  console.log(params);
+};
+
+export const showComplain = (req, res, next) => {
+  const { complainId } = req.query;
+  db
+    .one('select * from complains where ID = $1', complainId)
+    .then(data => {
+      res.status(200).json({
+        status: 'success',
+        message: 'Found a single Complain',
+        data
+      });
+    })
+    .catch(err => next(err));
+};
+
+export const getAllComplain = (req, res, next) => {
+  const { userId } = req.query;
+  db
+    .any('select * from complains where create_by=$1', userId)
+    .then(data => {
+      res.status(200).json({
+        status: 'success',
+        data
+      });
+    })
+    .catch(err => next(err));
+};
 
 export const createUser = (req, res, next) => {
   req.body.age = parseInt(req.body.age, 10);

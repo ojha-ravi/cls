@@ -11,7 +11,10 @@ router.post('/api/document/upload', dbQueries.documentUpload);
 router.delete('/api/document/delete', dbQueries.documentDelete);
 
 router.get('/api/complain/index', dbQueries.getAllComplain);
-router.post('/api/complain/save', dbQueries.saveComplain);
+router.get('/api/complain/show', dbQueries.showComplain);
+router.post('/api/complain/create', dbQueries.createComplain);
+router.post('/api/complain/update', dbQueries.updateComplain);
+router.delete('/api/complain/delete', dbQueries.deleteComplain);
 
 router.post('/api/users', dbQueries.createUser);
 router.put('/api/users/:id', dbQueries.updateUser);
