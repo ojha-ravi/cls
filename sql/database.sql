@@ -93,7 +93,7 @@ CREATE TABLE user_consumer_profile (
 );
 
 CREATE TABLE complains (
-    ID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	ID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 	short_description VARCHAR,
 	long_description VARCHAR,
 	complain_type VARCHAR,
@@ -101,14 +101,15 @@ CREATE TABLE complains (
 	state VARCHAR,
 	place VARCHAR,
 	fir_filed_number VARCHAR,
-    create_by VARCHAR REFERENCES user_detail(user_id) ON DELETE CASCADE,
-    created_at TIMESTAMP DEFAULT now_utc(),
-    updated_at TIMESTAMP
+	create_by VARCHAR REFERENCES user_detail(user_id) ON DELETE CASCADE,
+	created_at TIMESTAMP DEFAULT now_utc(),
+	updated_at TIMESTAMP
 );
 
 CREATE TABLE file_uploaded (
-    ID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    complains_id UUID REFERENCES complains(id) ON DELETE CASCADE,
+	ID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	complains_id UUID REFERENCES complains(id) ON DELETE CASCADE,
+	file_name VARCHAR,
 	created_at TIMESTAMP
 );
 

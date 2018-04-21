@@ -53,12 +53,21 @@ export const getUserProfile = (req, res, next) => {
 export const documentUpload = (req, res, next) => {
   new Promise((resolve, reject) => {
     const userDoc = req.files.file;
+    const { complainId } = req.body;
 
     userDoc.mv(`../cl-services/assets/${userDoc.name}`, err => {
       if (err) {
         reject();
       }
-      resolve(userDoc.name);
+
+      db
+        .any('insert into file_uploaded(complains_id, file_name) values($1, $2) RETURNING file_name', [
+          complainId,
+          userDoc.name
+        ])
+        .then(data => {
+          resolve(data);
+        });
     });
   })
     .then(data => {
@@ -123,6 +132,13 @@ export const showComplain = (req, res, next) => {
   const { complainId } = req.query;
   db
     .one('select * from complains where ID = $1', complainId)
+    .then(data =>
+      db.any('select file_name  from file_uploaded where complains_id = $1 ', complainId).then(files =>
+        Object.assign({}, data, {
+          files
+        })
+      )
+    )
     .then(data => {
       res.status(200).json({
         status: 'success',
